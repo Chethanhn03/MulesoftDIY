@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc"
+	xmlns:accounts-api="http://www.mulesoft.org/schema/mule/accounts-api"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/accounts-api http://www.mulesoft.org/schema/mule/accounts-api/current/mule-accounts-api.xsd
+http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd">
+		<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1bb8d05e-6e00-4486-97aa-3387a81846d7" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:request-config name="Accounts_HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="06b78493-3fd9-4584-ab57-434931263376" >
+		<http:request-connection host="diy-accounts-api.us-w2.cloudhub.io" port="80" />
+	</http:request-config>
+	<vm:config name="CSR_VM_Config" doc:name="VM Config" doc:id="679904da-8d61-4f0b-b88f-ceaa201fda66">
+		<vm:queues >
+			<vm:queue queueName="${vm.queue}" queueType="PERSISTENT"/>
+		</vm:queues>
+
+	</vm:config>
+	<accounts-api:config name="Accounts_API_Config" doc:name="Accounts API Config" doc:id="75e42c61-58ac-41ca-9eca-9ba3b5fb870e" property_host="${accounts.host}" property_port="${accounts.port}" property_protocol="${accounts.protocol}" property_basePath="${accounts.basepath}" />
+	<configuration-properties doc:name="Configuration properties" doc:id="58c0ba4e-364c-4570-9f22-e32ce8a0a266" file="config.yaml" />
+	<wsc:config name="Transaction_Web_Service_Consumer_Config" doc:name="Web Service Consumer Config" doc:id="aaf0a658-6f69-4cff-8577-4af000871a58" >
+		<wsc:connection wsdlLocation="${transactions.wsdl}" service="${transactions.service}" port="${transactions.port}" address="${transactions.address}"/>
+	</wsc:config>
+	
+</mule>

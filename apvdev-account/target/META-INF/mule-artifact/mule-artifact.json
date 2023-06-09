@@ -1,0 +1,36 @@
+{
+  "configs": [
+    "accounts-api.xml",
+    "accounts-transaction.xml",
+    "global-acc.xml",
+    "error-acc.xml",
+    "implementation-acc.xml",
+    "interface-acc.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:fnd_diy_1-1_customer-service-accounts:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.3.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "accounts-api.xml",
+        "accounts-transaction.xml",
+        "application-types.xml",
+        "config.yaml",
+        "error-acc.xml",
+        "global-acc.xml",
+        "implementation-acc.xml",
+        "interface-acc.xml",
+        "log4j2.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}
