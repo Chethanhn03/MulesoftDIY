@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="14650228-86f3-4afb-8d72-3cc01bfa7dd4" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="494d3f35-ba4e-45ba-ac27-d50ed4d55c90" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="test-projFlow" doc:id="bba97d6a-d717-413e-90de-2afd9b6aa446" >
+		<http:listener doc:name="Listener" doc:id="c065afec-0d05-4312-99eb-b84302d38a31" config-ref="HTTP_Listener_config1" path="/flights"/>
+		<set-payload value='fight info' doc:name="Set Payload" doc:id="dfdb1df8-2640-49f5-bea7-a8d108079282" />
+	</flow>
+</mule>
