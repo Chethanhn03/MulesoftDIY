@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="acc_implementationSub_Flow" doc:id="1c026843-d1fa-49b1-94c0-d0fa2565ff77" >
+		<ee:transform doc:name="Health Response" doc:id="8e1d7d83-5f84-4a53-abe3-e6ce20b993a8" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  "success": "true",
+  "timestamp": now(),
+  "environment": p('mule.env')
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<flow-ref doc:name="Flow Reference" doc:id="f238019a-a9ee-44bc-a162-fe3e1359aaef" name="implementationFlow"/>
+		<choice doc:name="Choice" doc:id="28f0c038-24ce-46ab-8139-5f25b5a00244" >
+			<when expression="#[payload.success]">
+				<ee:transform doc:name="Transform Message" doc:id="08cc57a8-7e12-4a94-aa3d-153e2729520b" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload ++ {
+	"choice": 1
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="f88a5be4-3ffb-4948-bfe0-b70ea599f8e8" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload ++ {
+	"choice": 2
+}]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+	</sub-flow>
+	<flow name="implementationFlow" doc:id="d12c1fb4-edbb-4b32-a8df-4032b1e15c71" >
+		<logger level="INFO" doc:name="Logger" doc:id="7ab3dc5d-fb49-4ab3-a2e6-ba1b2f5d88e1" />
+	</flow>
+</mule>

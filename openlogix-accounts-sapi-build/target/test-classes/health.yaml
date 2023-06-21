@@ -1,0 +1,14 @@
+if-payload-is-true-then-trigger-choice-1:
+  set-payload-health: "true"
+  verify-call-choice-1: "1"
+  throw-error: ""
+
+if-payload-is-false-then-trigger-choice-2:
+  set-payload-health: "false"
+  verify-call-choice-1: "0"
+  throw-error: ""
+  
+if-an-error-occurs-then-return-error-500:
+  set-payload-health: "true"
+  verify-call-choice-1: "0"
+  throw-error: "MULE:EXPRESSION"

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="openlogix-accounts-sapi-test-suite.xml" />
+	<munit:test name="openlogix-accounts-sapi-test-suite-get:\health:openlogix-accounts-sapi-configTest" doc:id="0ea66be1-490f-473d-9da5-9d388bb625ac" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="transformation" doc:id="25afe73f-b559-4ef0-b9f0-c9dde076e3e6" processor="flow-ref">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Flow Reference" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="afd330c2-9f32-4cc9-a7b9-61addbf648fc" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:mock-when>
+		</munit:behavior>
+		<munit:execution >
+			<set-payload value="#[p('set-payload-health') as Boolean]" doc:name="p('set-payload-health')" doc:id="7e5267bd-8e15-423c-af88-b91cb81f1892" />
+			<flow-ref doc:name="Flow-ref to get:\health:openlogix-accounts-sapi-config" doc:id="4915f5fa-6fff-45e9-ba10-f630e1f1e5ed" name="get:\health:openlogix-accounts-sapi-config"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:verify-call doc:name="Choice 1" doc:id="9d310f57-6d37-4f35-9408-e815ed060fa2" processor="flow-ref" atLeast="#[p('verify-call-choice-1') as Number]">
+				<munit-tools:with-attributes >
+					<munit-tools:with-attribute whereValue="Flow Reference" attributeName="doc:name" />
+					<munit-tools:with-attribute whereValue="afd330c2-9f32-4cc9-a7b9-61addbf648fc" attributeName="doc:id" />
+				</munit-tools:with-attributes>
+			</munit-tools:verify-call>
+			<munit-tools:assert-equals doc:name="httpStatus should be 200" doc:id="adda7a29-32bb-466b-a75d-2cd6d0386391" actual="#[vars.httpStatus default 200]" expected="#[200]" message="Health Flow is returning incorrect http status code"/>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
