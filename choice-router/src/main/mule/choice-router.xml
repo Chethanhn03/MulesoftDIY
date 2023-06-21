@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="7699311b-31d5-407b-9b04-3bb4a9fc38ca" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="choice-routerFlow" doc:id="7519e964-0d94-47d1-8cce-9f6f78199150" >
+		<http:listener doc:name="Listener" doc:id="d72cc560-a6f9-44ea-aef0-05633ad28403" config-ref="HTTP_Listener_config" path="/c-r"/>
+		<logger level="INFO" doc:name="Logger" doc:id="409b4c47-28d6-4ddb-99cc-d028bf413660" message="received request"/>
+		<set-variable value="#[attributes.queryParams.language]" doc:name="Set Variable" doc:id="a70f6d1b-385c-42d3-a519-f71be7d8d298" variableName="language"/>
+		<choice doc:name="Choice" doc:id="bee96436-135a-4d29-bbb9-8bc545b0bfd8" >
+			<when expression='#[vars.language == "Hindi"]'>
+				<set-payload value="hello" doc:name="Set Payload" doc:id="5dfd04d8-ea76-40bb-a934-f6691ca5ee88" />
+			</when>
+			<when expression='#[vars.language == "Kannada"]'>
+				<set-payload value="Hurray" doc:name="Set Payload" doc:id="bba108aa-d922-4d6b-b3ec-2e04bf6d5c74" />
+			</when>
+			<when expression='#[vars.language == "Telugu"]'>
+				<set-payload value="yeppudra" doc:name="Set Payload" doc:id="c1bf5b0e-05e4-4a73-921b-8530902fbedc" />
+			</when>
+			<otherwise >
+				<set-payload value="okay" doc:name="Set Payload" doc:id="a1970786-7d56-4c17-971d-94cb7b5d75df" />
+			</otherwise>
+		</choice>
+	</flow>
+</mule>
