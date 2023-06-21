@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="caa3f34e-6400-4ba8-97c3-c02c2c8876a4" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="scatter-gatherFlow" doc:id="ccc36c02-8944-46b3-b5ba-b7e544fcb304" >
+		<http:listener doc:name="Listener" doc:id="44ed063c-51b0-44f8-bfbc-55e3980da71b" config-ref="HTTP_Listener_config" path="s-g"/>
+		<logger level="INFO" doc:name="Logger" doc:id="7d1d0aa2-d4db-4f45-bcbd-5869e8fa475b" message="s-g flow"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="413a33b9-3c18-4028-b7f5-a0ddd1e18a0b" >
+			<route >
+				<set-payload value="payloadData1" doc:name="Set Payload 1" doc:id="cf122371-5074-49b7-9355-51c0dc07cc52" />
+			</route>
+			<route >
+				<set-payload value="payloadData2" doc:name="Set Payload 2" doc:id="15a1bb6e-056e-4fae-80b4-c5090e612476" />
+			</route>
+		</scatter-gather>
+		<logger level="INFO" doc:name="Logger" doc:id="26c1827d-e6cf-4c35-8805-a8123f875dd8" message="#[payload]"/>
+	</flow>
+</mule>
