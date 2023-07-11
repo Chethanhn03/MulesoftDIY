@@ -1,0 +1,3 @@
+diyaccountssapiFlow1:
+  country: "USA"
+  output: "mocks/mock-testUSA.json"

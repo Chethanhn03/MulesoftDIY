@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<file:config name="File_Config" doc:name="File Config" doc:id="4bfa4f8b-76fb-4e0f-93c8-9d3d04ea886f" >
+		<file:connection workingDir="C:\Users\cheth\OneDrive\Desktop" />
+	</file:config>
+	<flow name="diyaccountssapiFlow1" doc:id="8961168f-8dfc-4506-889d-bb52c8e860b6" >
+		<db:listener doc:name="On Table Row" doc:id="15bb9dcf-c621-40cd-b9d9-b4700f19bde9" table="flights_customers" config-ref="Database_Config">
+			<scheduling-strategy >
+				<fixed-frequency frequency="5" timeUnit="SECONDS"/>
+			</scheduling-strategy>
+		</db:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="2bd98934-4122-4576-b9c6-c154b4e8437d" message='#["New Record"]'/>
+		<ee:transform doc:name="Transform Message" doc:id="277864c5-668b-4f9e-a828-c8f5f875fc32" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/csv header=false
+---
+payload]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="filename" ><![CDATA[%dw 2.0
+output application/java
+---
+(payload.country replace " " with "-") ++ (now() as String {format: "yyyyMMdd"}) ++ ".csv"]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+		<file:write doc:id="b66f753f-1fd5-4110-b606-6c5b38aaafc6" config-ref="File_Config" path="#[vars.filename]" mode="APPEND"/>
+	</flow>
+</mule>
